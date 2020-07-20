@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+{% block page_content %}
+<body>
+    <div style="margin-top: 7%; margin-bottom: 5%; width: 60%" class="container">
+        <h3>Bagian</h3>
+        {% for bagian in bagians %}
+            <a href="{% url 'tugas' bagian.id %}">
+                <div style="margin-top: 2%" class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ bagian.divisi }}</h5>
+                    <p class="card-text">{{ bagian.deskripsi }}</p>
+                  </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</body>
+{% endblock %}
+</html>

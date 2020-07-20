@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .card:hover {
+            opacity: 0.5;
+            background-color: #97c5e6;
+        }
+    </style>
+</head>
+<!-- {% block page_content %}
+{#<body>#}
+{#    <div style="margin-top: 7%; margin-bottom: 5%; width: 60%" class="container">#}
+{#        <h3>Acara</h3>#}
+{#        {% for acara in acaras %}#}
+{#            <a href="{% url 'bagian' acara.id %}">#}
+{#                <div style="margin-top: 2%" class="card">#}
+{#                  <div class="card-body">#}
+{#                    <h5 class="card-title">{{ acara.judul }}</h5>#}
+{#                    <p class="card-text">{{ acara.deskripsi }}</p>#}
+{#                  </div>#}
+{#                </div>#}
+{#            </a>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#</body>#} -->
+<body>
+    <div style="margin-top: 7%; margin-bottom: 5%; width: 60%" class="container">
+        <h3>Acara</h3>
+        {% for acara in acaras %}
+            <div class="row">
+            <div class="col-sm-10">
+            <a href="{% url 'bagian' acara.id %}">
+                <div style="margin-top: 2%" class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ acara.judul }}</h5>
+                    <p class="card-text">{{ acara.deskripsi }}</p>
+                  </div>
+                </div>
+            </a>
+            </div>
+                {% if user.is_staff %}
+                <div style="margin-top: 7%; padding-left: 0px;" class="col-sm-2">
+                    <a id="print{{ acara.id }}" class="printBtn btn btn-primary" href="#" data-acaraid="{{ acara.id }}">Print</a>
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    <a hidden href="" download class="donwloadBtn">Download</a>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    {% block javascript %}
+  <script>
+    $('.printBtn').click(function(){
+        var acaraid = $(this).attr("data-acaraid");
+      $.ajax({
+          type: "Get",
+          url: '/print-acara',
+        data: {
+          'acaraid': acaraid
+        },
+        success: function (data) {
+            var downloadBtn = document.getElementsByClassName('donwloadBtn');
+            downloadBtn = downloadBtn[0];
+            downloadBtn.setAttribute('href', 'media/'+data );
+            window.location.href = downloadBtn.href;
+        }
+      });
+
+    });
+  </script>
+{% endblock %}
+</body>
+{% endblock %}
+</html>

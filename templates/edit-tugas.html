@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nama</title>
+</head>
+{% block page_content %}
+    <body>
+    <div style="margin-top: 7%; margin-bottom: 5%; width: 70%" class="container">
+        {% if updated == 'updated' %}
+            <div id="alert-success" class="alert alert-success" role="alert">
+              Tugas Telah ter-update.
+            </div>
+        {% endif %}
+        {% if updated == 'not-updated' %}
+            <div id="alert-danger" class="alert alert-danger" role="alert">
+              File harus di bawah 2MB.
+            </div>
+        {% endif %}
+
+        <h3>Edit Tugas {{ tugas.id }}</h3>
+        <form action="{% url 'edit-tugas' tugas.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="form-group row">
+                <label for="title" class="col-sm-2 col-form-label">Nama Tugas</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="title"
+                           value="{{tugas.judul}}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="createdat" class="col-sm-2 col-form-label">Deskripsi</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="createdat"
+                           value="{{tugas.deskripsi}}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="createdat" class="col-sm-2 col-form-label">Tgl Dibuat</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="createdat"
+                           value="{{tugas.tgl_dibuat}}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="duedate" class="col-sm-2 col-form-label">Batas Tanggal</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="duedate"
+                           value="{{tugas.batas_tgl}}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleFormControlSelect1" class="col-sm-2 col-form-label">Status</label>
+                <div class="col-sm-10">
+                    <select name="status" class="form-control" id="exampleFormControlSelect1">
+                        <option value="done" {% if tugas.status == 'done' %}selected{% endif %}>Done</option>
+                        <option value="pending" {% if tugas.status == 'pending' %}selected{% endif %}>Pending</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleFormControlFile1" class="col-sm-2 col-form-label">Attachement</label>
+                <div class="col-sm-10">
+                    <input type="file" name="attachment_file" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleFormControlTextarea1" class="col-sm-2 col-form-label">Komentar</label>
+                <div class="col-sm-10">
+                    <textarea name="komentar" class="form-control" id="exampleFormControlTextarea1" rows="3">{{ tugas.komentar }}</textarea>
+                </div>
+            </div>
+            <button style="float: right" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    
+
+    <script>
+        setTimeout(function () {
+            $('#alert-success').hide();
+        },3000);
+        setTimeout(function () {
+            $('#alert-danger').hide();
+        },3000);
+    </script>
+
+    </body>
+{% endblock %}
+</html>

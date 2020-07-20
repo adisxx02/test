@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+{% block page_content %}
+<body>
+    <div style="margin-top: 10%; margin-bottom: 5%" class="container">
+        <table id="tasks-table" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Tugas</th>
+                <th>Tgl Dibuat</th>
+                <th>Batas Tgl</th>
+                <th>Tugas untuk</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ task.judul }}</td>
+                    <td>{{ task.tgl_dibuat}}</td>
+                    <td>{{ task.batas_tgl }}</td>
+                    <td>{{ task.tugas_untuk }}</td>
+                    <td>{{ task.status }}</td>
+                    {% if task.tugas_untuk != request.user %}
+                        <td>Edit</td>
+                    {% endif %}
+                    {% if task.tugas_untuk == request.user %}
+                        <td><a href="{% url 'edit-tugas' task.id %}">Edit</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+        
+    </table>
+    </div>
+</body>
+    <script>
+        $(document).ready(function() {
+            $('#tasks-table').DataTable();
+        } );
+    </script>
+{% endblock %}
+</html>
